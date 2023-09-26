@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Super App Store</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+		<style>
+* {
+    font-family: "Roboto";
+}
+.app-card {
+	background-color: lightsteelblue;
+
+	display: block;
+	width: 12em;
+	min-height: 12em;
+    padding: 6px;
+}
+.app-card>h4 {
+	margin: 0;
+}
+.app-card>a {
+	appearance: button;
+	text-decoration: none;
+	color: initial;
+	background-color: darkorange;
+
+    display: inline-block;
+	padding: 10px 1em 10px;
+    margin-top: .6em;
+	border-radius: 25px;
+}
+		</style>
+	</head>
+
+	<body>
+		<div id="topbar">
+			<h1 style="font-family: 'Roboto Condensed'">Super App Store</h1>
+		</div>
+
+		<div id="yourapps-container">
+			<h3>Publish your app</h3>
+			{{ if . }}
+			<p>
+			Your last submission has ID {{ .Id }}.
+			{{ if .Pending }}
+			It has not been reviewed yet.
+			{{ else }}
+			Verdict: <b>{{ .Status }}</b>.
+			{{ end }}
+			</p>
+			{{ end }}
+			<p>Before you can publish your app, it must be reviewed by our team. 
+			Below is a form to submit your app for evaluation. Please note that:
+			<ul>
+				<li>The package name of the app must be ru.superappstore.newapp;</li>
+				<li>The app cannot exceed 4 MiB in size;</li>
+				<li>You will be prompted to provide information such as name of the app, developer's name AFTER a positive verdict on the review;</li>
+				<li>Before that, you will only be provided a unique review submission ID;</li>
+				<li>The minimum wait time between each submission is five minutes.</li>
+			</ul>
+			</p>
+			<form action="" method="POST" enctype="multipart/form-data">
+				<input type="file" id="apk" name="apk" accept="application/vnd.android.package-archive"/>
+				<input type="submit" value="Submit" />
+			</form>
+			<p><em>Or take an inspiration from our...</em></p>
+		</div>
+
+		<hr/>
+		<div id="apps-container">
+			<h3>Best free apps</h3>
+			<div class="app-card">
+                <img src="/static/icon.jpg" style="max-width: 100%"/>
+				<h4>DroidChat</h4>
+				<span>by <em>admin</em></span>
+                <br>
+				<a href="/static/app.apk">Download</a>
+			</div>
+		</div>
+	</body>
+</html>

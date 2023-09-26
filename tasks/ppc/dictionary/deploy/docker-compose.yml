@@ -1,0 +1,16 @@
+version: "2.4"
+services:
+  web:
+    build: .
+    ports:
+      - "2229:8000"
+    volumes:
+      - genjidb:/genjidb
+    environment:
+      FLAG: "brics+{sqL_1nJect1on5_ar3_s1Mpl3_4nD_fUn_To_eXpl01t_16b08c0731324599}"
+    restart: unless-stopped
+    cpus: 2
+    pids_limit: 64
+    mem_limit: 512m
+volumes:
+  genjidb:

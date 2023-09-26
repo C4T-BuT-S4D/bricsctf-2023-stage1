@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}
+Posts
+{% endblock %}
+{% block content %}
+
+<ul class="post-list">
+  {% for item in posts | reverse %}
+  <li>
+    <a class="link-button post-item" href="{{ url_for('view_post', post=item.id) }}">
+      <div><span class="post-author">{{ item.author }}</span> @ {{ item.ts.strftime("%d/%m/%y") }}</div>
+      <div>{{ item.title }}</div>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

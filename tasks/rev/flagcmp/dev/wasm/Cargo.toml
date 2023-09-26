@@ -1,0 +1,23 @@
+[package]
+name = "flagcmp-wasm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.75"
+ascii = "1.1.0"
+getrandom = { version = "0.2.10", features = ["js"] }
+lazy_static = "1.4.0"
+phf = { version = "0.11.2", features = ["macros"] }
+rand = { version = "0.8.5", features = ["small_rng"] }
+wasm-bindgen = "0.2.87"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+debug = false
+opt-level = 0
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false

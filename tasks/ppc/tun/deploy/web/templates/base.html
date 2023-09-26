@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>moarleeks</title>
+  <meta name="author" content="renbou">
+
+  <link rel="stylesheet" href="/static/reset.css">
+  <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+  <div class="layout">
+    <header class="layout-heading">
+      <h1><a class="heading-brand" href="/">moarleeks</a></h1>
+      {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+      <ul class="flashes">
+        {% for category, message in messages %}
+        <li class="flash flash-{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% endwith %}
+    </header>
+    {% if current_user.is_authenticated and recent %}
+    <aside class="layout-lt-sidebar sidebar">
+      <h3 class="subtitle">Recently visited</h3>
+      <hr class="splitter" />
+      {% for item in recent | reverse %}
+      <a class="link-button" href="{{ url_for('view_post', post=item.id) }}">{{ item.title }}</a>
+      {% endfor %}
+    </aside>
+    {% endif %}
+    <main class="layout-main">
+      <h2 class="title">{% block title %}{% endblock %}</h2>
+      {% block content %}{% endblock %}
+    </main>
+    {% if current_user.is_authenticated %}
+    <aside class="layout-rt-sidebar sidebar">
+      <a class="link-button" href="{{ url_for('create_post') }}">Create Post</a>
+      <a class="link-button" href="{{ url_for('edit_user') }}">Settings</a>
+      <a class="logout-button link-button" href="{{ url_for('sign_out') }}">Sign Out</a>
+    </aside>
+    {% endif %}
+  </div>
+</body>
+
+</html>

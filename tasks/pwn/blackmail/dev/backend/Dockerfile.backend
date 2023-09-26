@@ -1,0 +1,15 @@
+FROM golang:alpine
+
+WORKDIR app
+
+ADD ./go.mod ./
+ADD ./go.sum ./
+
+RUN go mod download 
+
+ADD ./internal ./internal
+ADD ./cmd/droidchat ./cmd/droidchat
+
+RUN go build ./cmd/droidchat
+
+CMD ["./droidchat"]

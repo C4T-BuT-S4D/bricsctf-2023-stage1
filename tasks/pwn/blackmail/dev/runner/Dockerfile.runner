@@ -1,0 +1,36 @@
+FROM golang:alpine AS builder
+
+WORKDIR /build
+
+ADD ./go.mod ./
+ADD ./go.sum ./
+RUN	go mod download
+
+COPY ./cmd ./cmd
+COPY ./internal ./internal
+RUN go build ./cmd/runner/
+
+FROM ubuntu:22.04
+
+RUN apt update && apt -y upgrade
+
+RUN apt install -y openjdk-17-jre-headless ffmpeg libsm6 libxext6 curl unzip
+
+WORKDIR /runner
+
+RUN mkdir -p ./Android/sdk/
+
+RUN curl -o sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip && (cd ./Android/sdk && unzip ../../sdk.zip && cd ./cmdline-tools && mkdir latest && mv * latest/ ; true)
+	
+ENV	ANDROID_HOME="/runner/Android/sdk"
+ENV ANDROID_SDK_ROOT="${ANDROID_HOME}"
+ENV	PATH="${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools"
+
+RUN (yes | sdkmanager --licenses) && sdkmanager --install 'platforms;android-33' 'platform-tools' 'emulator' 'build-tools;33.0.0'
+
+ADD ./runner-entrypoint.sh ./runner-entrypoint.sh
+ADD ./create-avd.sh ./create-avd.sh
+
+COPY --from=builder /build/runner ./runner
+
+CMD ["./runner-entrypoint.sh"]

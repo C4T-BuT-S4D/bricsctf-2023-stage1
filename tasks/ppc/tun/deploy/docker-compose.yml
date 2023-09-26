@@ -1,0 +1,43 @@
+version: "2.4"
+services:
+  tun-edge:
+    build: ./tun
+    image: tun:latest
+    command: -proto http1 -listen :1001 -mode edge
+    ports:
+      - "80:1001"
+    volumes:
+      - ./edge.json:/edge.json:ro
+    restart: unless-stopped
+    cpus: 2
+    pids_limit: 64
+    mem_limit: 512m
+  tun-http1:
+    build: ./tun
+    image: tun:latest
+    command: -proto http1 -listen :1001 -mode internal
+    restart: unless-stopped
+    cpus: 2
+    pids_limit: 64
+    mem_limit: 512m
+  tun-http2:
+    build: ./tun
+    image: tun:latest
+    command: -proto http2 -listen :1001 -mode internal
+    restart: unless-stopped
+    cpus: 2
+    pids_limit: 64
+    mem_limit: 512m
+  web:
+    build: ./web
+    command: gunicorn --workers=4 --bind=:5000 --keep-alive=0 app:app
+    volumes:
+      - web-files:/app/files
+      - web-instance:/app/instance
+    restart: unless-stopped
+    cpus: 2
+    pids_limit: 256
+    mem_limit: 512m
+volumes:
+  web-files:
+  web-instance:

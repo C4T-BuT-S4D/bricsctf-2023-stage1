@@ -1,0 +1,24 @@
+{% import "macros.jinja" as macros %}
+{% extends "base.html" %}
+{% block title %}
+New Post
+{% endblock %}
+{% block content %}
+<form action="{{ url_for('create_post') }}" method="POST">
+  <div>
+    {{ form.title.label }}
+    {{ form.title(placeholder="New Post Title") }}
+  </div>
+  <div>
+    {{ form.content.label }}
+    {{ form.content(placeholder="Post text", rows=8) }}
+  </div>
+  <div>
+    {{ form.file.label }}
+    {{ form.file }}
+  </div>
+  {{ macros.with_error(form) }}
+  {{ form.csrf_token }}
+  <button type="submit">Create</button>
+</form>
+{% endblock %}

@@ -1,0 +1,9 @@
+[package]
+name = "exploit"
+version = "0.0.0"
+edition = "2021"
+
+[dependencies]
+rand = "0.8.5"
+sha2 = "0.10.7"
+rayon = "1.7.0"

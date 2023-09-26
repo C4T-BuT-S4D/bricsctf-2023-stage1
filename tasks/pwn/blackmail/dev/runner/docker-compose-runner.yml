@@ -1,0 +1,19 @@
+version: '3.1'
+
+services:
+  runner:
+    build: 
+      context: .
+      dockerfile: Dockerfile.runner
+    environment:
+      DB_URI: "postgres://postgres:63cf95b27e5415f6acbc@5.188.179.137/postgres?sslmode=disable"
+      APPS_DIR: /runner/apps
+    volumes:
+      - "./root/.android:/root/.android"
+      - "~/Android/sdk/system-images:/runner/Android/sdk/system-images"
+      - "./apps:/runner/apps"
+      - "../../deploy/app-for-runner.apk:/runner/app.apk"
+    devices:
+      - "/dev/kvm:/dev/kvm"
+    restart: unless-stopped
+

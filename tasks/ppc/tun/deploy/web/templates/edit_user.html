@@ -1,0 +1,28 @@
+{% import "macros.jinja" as macros %}
+{% extends "base.html" %}
+{% block title %}
+Settings
+{% endblock %}
+{% block content %}
+<form action="{{ url_for('edit_user') }}" method="POST">
+  <div>
+    {{ form.email.label }}
+    {{ form.email(disabled=True, placeholder=user.email[:6] + "•••" + user.email[-10:]) }}
+  </div>
+  <div>
+    {{ form.password.label }}
+    {{ form.password(disabled=True, placeholder="•••••") }}
+  </div>
+  <div>
+    {{ form.username.label }}
+    {{ form.username }}
+  </div>
+  <div>
+    {{ form.country.label }}
+    {{ form.country }}
+  </div>
+  {{ macros.with_error(form) }}
+  {{ form.csrf_token }}
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

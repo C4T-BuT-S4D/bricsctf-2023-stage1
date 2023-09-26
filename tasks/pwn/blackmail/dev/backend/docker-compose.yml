@@ -1,0 +1,65 @@
+version: '3.1'
+
+services:
+  caddy:
+    image: caddy:2.7.4-alpine
+    volumes:
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    network_mode: host
+    depends_on:
+      - app
+    cpus: 1
+    pids_limit: 256
+    mem_limit: 512m
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    environment:
+      - GIN_MODE=release
+      - DB_URI=postgres://postgres:fcd2cd4c7e67d34144cc@db/postgres?sslmode=disable
+      - STATIC_HOST=droidchat-ab2f2aaa594034df.brics-ctf.ru
+    volumes:
+      - "./static:/go/app/static"
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - bots  # bots will init db
+      - db
+    cpus: 1
+    pids_limit: 1024
+    mem_limit: 512m
+    restart: unless-stopped
+
+  bots:
+    build:
+      context: .
+      dockerfile: Dockerfile.bots
+    environment:
+      - DB_URI=postgres://postgres:fcd2cd4c7e67d34144cc@db/postgres?sslmode=disable
+      - FLAG=brics+{st4t3_y0ur_1nt3n7_075a84e6069f}
+    depends_on:
+      - db
+    cpus: 1
+    pids_limit: 512
+    mem_limit: 256m
+    restart: unless-stopped
+
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: fcd2cd4c7e67d34144cc
+    volumes:
+      - "./data:/var/lib/postgresql/data"
+    cpus: 1
+    pids_limit: 256
+    mem_limit: 512m
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:

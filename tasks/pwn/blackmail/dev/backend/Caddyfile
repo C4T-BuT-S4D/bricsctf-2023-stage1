@@ -1,0 +1,21 @@
+{
+	admin off
+	servers {
+		timeouts {
+			read_header 2s
+			read_body 5s
+			write 10s
+			idle 1m
+		}
+	}
+}
+
+droidchat-ab2f2aaa594034df.brics-ctf.ru {
+	header -server
+	reverse_proxy localhost:3000
+}
+
+:80, :443 {
+	header -server
+	respond 404
+}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}
+{{ post.name }}
+{% endblock %}
+{% block content %}
+<div class="post">
+  <div><span class="post-author">{{ post.author }}</span> @ {{ post.ts.strftime("%d/%m/%y %H:%M") }}</div>
+  <p>{{ post.content }}</p>
+  <div>
+    <a href="{{ url_for('get_file', post=post.id) }}">{% if unlocked %}🔓{% else %}🔒{% endif %} {{ post.file }}</a>
+  </div>
+</div>
+{% endblock %}

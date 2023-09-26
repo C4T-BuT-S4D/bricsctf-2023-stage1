@@ -1,0 +1,13 @@
+version: "2.4"
+services:
+  web:
+    build: .
+    ports:
+      - "80:2773"
+    environment:
+      PORT: "2773"
+      FLAG: "brics+{c3rtif1ed_es0l4ng_expl0it_d3vel0per_c65596e73d72cac7}"
+    restart: unless-stopped
+    cpus: 2
+    pids_limit: 64
+    mem_limit: 512m

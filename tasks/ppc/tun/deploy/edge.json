@@ -1,0 +1,6 @@
+{
+  "http1_proxy_addr": "tun-http1:1001",
+  "http2_proxy_addr": "tun-http2:1001",
+  "final_addr": "web:5000",
+  "chain_length": 5
+}

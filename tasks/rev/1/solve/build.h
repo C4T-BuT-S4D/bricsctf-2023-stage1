@@ -1,0 +1,5 @@
+#define VERSION "3.1.1"
+#define COMPILER "1"
+#define ID "2"
+#define BUILD "3"
+#define DIR "4"

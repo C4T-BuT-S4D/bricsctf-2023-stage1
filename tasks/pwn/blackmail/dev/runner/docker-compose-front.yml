@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.front
+    environment:
+      GIN_MODE: release
+      DB_URI: "postgres://postgres:63cf95b27e5415f6acbc@postgres/postgres?sslmode=disable"
+    volumes:
+      - "./templates:/app/templates"
+      - "../../deploy/app-for-players.apk:/app/static/app.apk"
+      - "./static/icon.jpg:/app/static/icon.jpg"
+    depends_on:
+      - postgres
+    ports:
+      - "80:3000"
+    cpus: 1
+    pids_limit: 512
+    mem_limit: 512m
+    restart: unless-stopped
+  
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: 63cf95b27e5415f6acbc
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./data:/var/lib/postgresql/data"
+    cpus: 1
+    pids_limit: 256
+    mem_limit: 1024m
+    restart: unless-stopped
+

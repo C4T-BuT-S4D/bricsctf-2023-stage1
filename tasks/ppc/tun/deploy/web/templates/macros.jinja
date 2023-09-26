@@ -1,0 +1,8 @@
+{% macro with_error(form) %}
+  {% if form.errors %}
+  <div class="error">
+    {% set error = form.errors|dictsort %}
+    {{ error[0][1][0] }}
+  </div>
+  {% endif %}
+{% endmacro %}

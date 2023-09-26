@@ -1,0 +1,20 @@
+{% import "macros.jinja" as macros %}
+{% extends "base.html" %}
+{% block title %}
+Sign In
+{% endblock %}
+{% block content %}
+<form action="{{ url_for('sign_in') }}" method="POST">
+  <div>
+    {{ form.email.label }}
+    {{ form.email(placeholder="user@example.com") }}
+  </div>
+  <div>
+    {{ form.password.label }}
+    {{ form.password(placeholder="password") }}
+  </div>
+  {{ macros.with_error(form) }}
+  {{ form.csrf_token }}
+  <button type="submit">Sign In</button>
+</form>
+{% endblock %}

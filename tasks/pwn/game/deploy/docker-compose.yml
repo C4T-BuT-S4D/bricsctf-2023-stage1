@@ -1,0 +1,11 @@
+version: '3.1'
+
+services:
+  game:
+    build: .
+    restart: unless-stopped
+    ports:
+      - 13001:13001
+    cpus: 2
+    pids_limit: 256
+    mem_limit: 2048m
